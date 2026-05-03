@@ -4,7 +4,7 @@ import { useRouter } from 'expo-router';
 export default function Home() {
   const router = useRouter();
   const imagem = {
-    source: require('../img/MascoteOn.png')
+    source: require('../../img/MascoteOn.png')
   };
 
   return (
@@ -15,7 +15,11 @@ export default function Home() {
       />
 
       <View style={styles.menuContainer}>
-        <TouchableOpacity style={styles.menuItem} onPress={() => router.push('/carrinho')}>
+        <TouchableOpacity style={styles.menuItem} onPress={() => router.push('tabs/produtos')}>
+          <Text style={styles.menuItemText}>🍔 Produtos</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.menuItem} onPress={() => router.push('tabs/carrinho')}>
           <Text style={styles.menuItemText}>🛒 Meu Carrinho</Text>
         </TouchableOpacity>
 

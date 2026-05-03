@@ -1,11 +1,57 @@
-import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
-import { useSaldo } from './SaldoContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Perfil() {
   const router = useRouter();
-  const { saldo } = useSaldo();
+  const [saldo, setSaldo] = useState(0);
+
+  useEffect(() => {
+    loadSaldo();
+  }, []);
+
+  const loadSaldo = async () => {
+    try {
+      // Verificar se o AsyncStorage está disponível
+      const testItem = await AsyncStorage.getItem('test_availability');
+      const storedSaldo = await AsyncStorage.getItem('saldo');
+      if (storedSaldo) {
+        setSaldo(parseFloat(storedSaldo));
+      }
+    } catch (error) {
+      console.log('AsyncStorage não disponível, usando saldo padrão');
+      setSaldo(0); // Saldo padrão quando não há AsyncStorage
+    }
+  };
+
+  const handleLogout = () => {
+    Alert.alert(
+      'Sair da Conta',
+      'Tem certeza que deseja sair da sua conta?',
+      [
+        {
+          text: 'Cancelar',
+          style: 'cancel'
+        },
+        {
+          text: 'Sair',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              // Verificar se o AsyncStorage está disponível
+              await AsyncStorage.getItem('test_availability');
+              await AsyncStorage.setItem('isLoggedIn', 'false');
+              router.replace('/auth/login');
+            } catch (error) {
+              console.log('AsyncStorage não disponível, redirecionando mesmo assim');
+              router.replace('/auth/login');
+            }
+          }
+        }
+      ]
+    );
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -31,11 +77,14 @@ export default function Perfil() {
       </View>
 
       <View style={styles.menuContainer}>
-        <TouchableOpacity style={styles.menuItem} onPress={() => router.push('/carrinho')}>
+        <TouchableOpacity style={styles.menuItem} onPress={() => router.push('tabs/carrinho')}>
           <Text style={styles.menuItemText}>🍔 Meus Pedidos</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.menuItem} onPress={() => router.push('/ajuda')}>
           <Text style={styles.menuItemText}>❓ Ajuda e Suporte</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.menuItem, styles.menuItemSair]} onPress={handleLogout}>
+          <Text style={[styles.menuItemText, styles.menuItemTextSair]}>🚪 Sair da Conta</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

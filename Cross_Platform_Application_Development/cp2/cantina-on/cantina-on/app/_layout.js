@@ -1,20 +1,18 @@
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { SaldoProvider } from './SaldoContext';
 
 export default function Layout(){
   return (
-    <SaldoProvider>
-      <Tabs screenOptions={{ 
-        tabBarActiveTintColor: '#FF007F', 
-        tabBarInactiveTintColor: '#BDBDBD',
-        tabBarStyle: { backgroundColor: '#0D0D0D', borderTopColor: '#424242' },
-        headerStyle: { backgroundColor: '#0D0D0D' },
-        headerTintColor: '#FFFFFF',
-        headerShown: false 
-      }}>
+    <Tabs screenOptions={{ 
+      tabBarActiveTintColor: '#FF007F', 
+      tabBarInactiveTintColor: '#BDBDBD',
+      tabBarStyle: { backgroundColor: '#0D0D0D', borderTopColor: '#424242' },
+      headerStyle: { backgroundColor: '#0D0D0D' },
+      headerTintColor: '#FFFFFF',
+      headerShown: false 
+    }}>
         <Tabs.Screen
-          name="index"
+          name="tabs/index"
           options={{
             title: 'Home',
             tabBarIcon: ({ color }) => <Ionicons name="home" size={24} color={color} />,
@@ -22,10 +20,18 @@ export default function Layout(){
         />
         
         <Tabs.Screen
-          name="produtos"
+          name="tabs/produtos"
           options={{
             title: 'Produtos',
             tabBarIcon: ({ color }) => <Ionicons name="fast-food" size={24} color={color} />,
+          }}
+        />
+
+        <Tabs.Screen
+          name="tabs/carrinho"
+          options={{
+            title: 'Carrinho',
+            tabBarIcon: ({ color }) => <Ionicons name="cart" size={24} color={color} />,
           }}
         />
         
@@ -44,7 +50,7 @@ export default function Layout(){
             headerShown: false
           }}
         />
-              <Tabs.Screen
+        <Tabs.Screen
           name="ajuda"
           options={{
             href: null, 
@@ -74,7 +80,34 @@ export default function Layout(){
             headerShown: false,
           }}
         />
+        <Tabs.Screen
+          name="auth/cadastro"
+          options={{
+            href: null,
+            headerShown: false,
+          }}
+        />
+        <Tabs.Screen
+          name="auth/login"
+          options={{
+            href: null,
+            headerShown: false,
+          }}
+          />
+        <Tabs.Screen
+          name="components/Button"
+          options={{
+            href: null,
+            headerShown: false,
+          }}
+        />
+        <Tabs.Screen
+          name="components/Input"
+          options={{
+            href: null,
+            headerShown: false,
+          }}
+        />
       </Tabs>
-    </SaldoProvider>
   );
 }

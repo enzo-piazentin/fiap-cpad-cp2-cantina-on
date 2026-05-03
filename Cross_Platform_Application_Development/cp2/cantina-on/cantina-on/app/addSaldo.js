@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
 import { useRouter } from 'expo-router';
-import { useSaldo } from './SaldoContext';
+import { useSaldo } from './context/SaldoContext';
 
 export default function AddSaldo() {
   const router = useRouter();
